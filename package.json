@@ -1,0 +1,9 @@
+{
+  "name": "storyboard-prompt-builder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Turn a shot list into consistent image/video generation prompts.",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}
