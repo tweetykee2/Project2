@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Storyboard Prompt Builder</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Storyboard Prompt Builder</h1>
+    <div class="actions">
+      <button id="btn-example" type="button">Load example</button>
+      <button id="btn-new" type="button">New</button>
+      <label class="btn" for="file-import">Import JSON</label>
+      <input id="file-import" type="file" accept="application/json,.json" hidden />
+      <button id="btn-export-json" type="button">Export JSON</button>
+      <button id="btn-export-md" type="button">Export Markdown</button>
+      <button id="btn-copy-all" type="button" class="primary">Copy all prompts</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel" aria-label="Project settings">
+      <h2>Project</h2>
+      <label>Title <input data-p="title" placeholder="e.g. The Last Lighthouse" /></label>
+      <label>Logline <textarea data-p="logline" rows="2" placeholder="One-sentence story summary"></textarea></label>
+      <label>Target tool <select data-p="target" id="sel-target"></select></label>
+      <div class="row">
+        <label>Visual style <select data-p="style" id="sel-style"></select></label>
+        <label>Aspect ratio
+          <input data-p="aspectRatio" list="ar-list" placeholder="16:9" />
+          <datalist id="ar-list">
+            <option value="16:9"></option><option value="2.39:1"></option><option value="4:3"></option>
+            <option value="1:1"></option><option value="9:16"></option><option value="3:2"></option>
+          </datalist>
+        </label>
+      </div>
+      <label>Extra style notes <input data-p="styleNotes" placeholder="e.g. muted teal & orange palette" /></label>
+      <label>Default setting <input data-p="setting" placeholder="Used when a shot has no setting" /></label>
+      <label>Negative / avoid <input data-p="negative" placeholder="Leave blank for sensible default" /></label>
+      <div class="row" id="mj-only">
+        <label>MJ version <input data-p="mjVersion" placeholder="e.g. 7" /></label>
+        <label>Seed <input data-p="seed" placeholder="optional" /></label>
+      </div>
+
+      <h2>Characters</h2>
+      <p class="hint">Descriptions are injected into every shot that mentions the character by name — this keeps them consistent across panels.</p>
+      <div id="characters"></div>
+      <button id="btn-add-char" type="button">+ Add character</button>
+    </aside>
+
+    <section class="shots" aria-label="Shots">
+      <div id="shots"></div>
+      <button id="btn-add-shot" type="button" class="primary add-shot">+ Add shot</button>
+    </section>
+  </main>
+
+  <template id="tpl-shot">
+    <article class="shot">
+      <header class="shot-head">
+        <span class="shot-num"></span>
+        <input class="shot-title" data-s="title" placeholder="Shot title (optional)" />
+        <div class="shot-tools">
+          <button type="button" data-act="up" title="Move up" aria-label="Move up">↑</button>
+          <button type="button" data-act="down" title="Move down" aria-label="Move down">↓</button>
+          <button type="button" data-act="dup" title="Duplicate" aria-label="Duplicate">⧉</button>
+          <button type="button" data-act="del" title="Delete" aria-label="Delete" class="danger">✕</button>
+        </div>
+      </header>
+      <div class="shot-body">
+        <div class="fields">
+          <div class="row3">
+            <label>Shot <select data-s="shotType" data-list="SHOT_TYPES"></select></label>
+            <label>Angle <select data-s="angle" data-list="ANGLES"></select></label>
+            <label>Camera move <select data-s="movement" data-list="MOVEMENTS"></select></label>
+          </div>
+          <label>Action / subject <textarea data-s="action" rows="2" placeholder="What happens in frame. Mention characters by name."></textarea></label>
+          <div class="row">
+            <label>Setting <input data-s="setting" placeholder="Location" /></label>
+            <label>Time of day <input data-s="timeOfDay" placeholder="e.g. dusk" /></label>
+          </div>
+          <div class="row">
+            <label>Lighting <input data-s="lighting" list="lighting-list" placeholder="pick or type" /></label>
+            <label>Mood <input data-s="mood" placeholder="e.g. tense, hopeful" /></label>
+          </div>
+          <div class="row">
+            <label>Dialogue / SFX <input data-s="dialogue" placeholder="Not sent to image models" /></label>
+            <label class="narrow">Duration (s) <input data-s="duration" type="number" min="0" step="0.5" /></label>
+          </div>
+        </div>
+        <div class="output">
+          <div class="out-head">
+            <span>Prompt</span>
+            <button type="button" data-act="copy">Copy</button>
+          </div>
+          <pre class="out-prompt"></pre>
+          <div class="out-neg-wrap">
+            <div class="out-head"><span>Negative</span><button type="button" data-act="copy-neg">Copy</button></div>
+            <pre class="out-neg"></pre>
+          </div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <datalist id="lighting-list"></datalist>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="prompt.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
