@@ -37,3 +37,4 @@ to back up or move a storyboard between machines.
 - `app.js` — UI
 - `index.html`, `styles.css`
 - `test/` — unit tests: `npm test` (Node 18+)
+- `.claude/skills/storyboard-prompt-builder/` — Claude Code skill: run `/storyboard-prompt-builder` in a session opened on this repo
