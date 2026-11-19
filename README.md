@@ -38,3 +38,4 @@ to back up or move a storyboard between machines.
 - `index.html`, `styles.css`
 - `test/` — unit tests: `npm test` (Node 18+)
 - `.claude/skills/storyboard-prompt-builder/` — Claude Code skill: run `/storyboard-prompt-builder` in a session opened on this repo
+- `.claude/skills/character-design-sheet/` — Claude Code skill: run `/character-design-sheet` to turn a character description or reference images into a character bible and design-sheet prompts (saved to `characters/`, which the storyboard skill reuses)
